@@ -1,19 +1,8 @@
 package rest;
 
+import com.google.gson.Gson;
 import entity.User;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
 import javax.ws.rs.core.Context;
@@ -24,6 +13,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import utils.PuSelector;
+import static utils.SetupTestUsers.testSwappiFutureCalls;
+
 
 /**
  * @author lam@cphbusiness.dk
@@ -75,8 +66,16 @@ public class DemoResource {
     String thisuser = securityContext.getUserPrincipal().getName();
     return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
   }
-  
-  @GET
+
+   @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("apis")
+    public String getswapiPeople() {
+        String testSwappiFutureCalls = new Gson().toJson(testSwappiFutureCalls());
+        return testSwappiFutureCalls;
+    }
+    
+  /*@GET
   @Produces(MediaType.APPLICATION_JSON)
   @Path("apis")
   public String getFromAPIs(){
@@ -109,6 +108,6 @@ public class DemoResource {
     scan.close();
     return jsonStr;
   }
-  
+  */
 
 }
